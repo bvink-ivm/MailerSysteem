@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <input type="email" name="email" id='emailInput' required>
+    <button onclick='sentEmail()'>Send Login Link</button>
+
+
+<script>
+    function sentEmail(){
+        let email = document.getElementById("emailInput").value;
+        console.log(email)
+        const payload = {
+                email: email
+            };
+        fetch('{{path("link")}}', {
+            method:'POST',
+            headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token("AVD") }}'
+                },
+                body: JSON.stringify(payload)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+</script>
+{% endblock %}
